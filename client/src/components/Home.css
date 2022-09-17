@@ -1,0 +1,39 @@
+html, body {
+    height: 100vh;
+}
+
+#image1 {
+    background-image: url('../images/clinic1.jpg');
+    background-position: center;
+    background-size: cover;
+    padding: 279px;
+    background-color: beige;
+    opacity: 50%;
+}
+
+#image2 {
+    background-image: url('../images/clinic2.jpg');
+    background-position: center;
+    background-size: cover;
+    padding: 279px;
+    background-color: beige;
+    opacity: 50%;
+}
+
+#image3 {
+    background-image: url('../images/clinic3.jpg');
+    background-position: center;
+    background-size: cover;
+    padding: 279px;
+    background-color: beige;
+    opacity: 50%;
+}
+
+.custom-carousel-caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    text-align: center;
+}

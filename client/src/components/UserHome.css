@@ -1,0 +1,66 @@
+/* #main {
+    background-image: url('../images/userPage.png');
+    background-position: center;
+    background-size: cover;
+    padding: 150px;
+    color: white;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: larger;
+}
+
+#searchbox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    -ms-flex-item-align: start;
+    align-content: flex-start
+
+}
+
+#search{
+    text-align: center;
+    font: caption;
+    font-size: larger;
+    background-color: rgba(255, 255, 255, 0.623);
+}
+
+.contain {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    overflow-wrap: break-word;
+}
+
+.item {
+    padding: 50px;
+    background-color: antiquewhite;
+    margin: 10px;
+    color: rgb(0, 0, 0);
+    font: caption;
+    font-size: larger;
+} */
+
+
+.result {
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 1.5rem 0.2rem;
+    padding: 1rem;
+    color: black;
+}
+
+.wrapper-div {
+    padding: 30px !important;
+}
+
+.arrow-btn {
+    text-align: center;
+}

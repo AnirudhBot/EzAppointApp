@@ -1,0 +1,22 @@
+.my-custom-scrollbar {
+    position: relative;
+    height: 200px;
+    overflow: auto;
+    }
+    .table-wrapper-scroll-y {
+    display: block;
+    }
+
+    .table{
+        background-color:lightblue;
+        width: 500px;
+        padding: 500px;
+    }
+
+    #top span{
+        font-size: 50px;
+    }
+
+    .main{
+        margin-bottom: 145px;
+    }
