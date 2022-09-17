@@ -1,46 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./appoint.css";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 export default function UserAppoint() {
   const location = useLocation();
+  const clinicName = location.state.clinicName;
   const [queueL, setQueueL] = useState();
-  const [min, setMin] = useState("00");
-  const [sec, setSec] = useState("00");
+  const [min, setMin] = useState(null);
+  const [sec, setSec] = useState(null);
+  const [bookStatus, setBookStatus] = useState(false);
   let minCounter;
   let secCounter;
 
-  const startTimer = () => {
-    secCounter--;
-    if (secCounter < 0) {
-      if (minCounter === 0) {
-        return;
-      }
-      minCounter--;
-      secCounter = 59;
-      setMin(minCounter);
-      setSec(secCounter);
-    } else setSec(secCounter);
-  };
-
-  const bookingHandler = (e) => {
-    const clinicName = location.state.clinicName;
-    const user = {
-      name: location.state.userName,
-      contact: location.state.userContact,
-    };
-
-    axios
-      .post("http://localhost:3001/updateQueue", {
-        clinicName,
-        user,
-      })
-      .then((response) => {})
-      .catch((err) => {
-        console.log(err);
-      });
-
+  const getQueue = () => {
+    console.log("queue accessed");
     axios
       .post("http://localhost:3001/getQueue", {
         clinicName,
@@ -58,9 +32,42 @@ export default function UserAppoint() {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const startTimer = () => {
+    secCounter--;
+    if (secCounter < 0) {
+      if (minCounter === 0) {
+        return;
+      }
+      minCounter--;
+      secCounter = 59;
+      setMin(minCounter);
+      setSec(secCounter);
+    } else setSec(secCounter);
+  };
+
+  const bookingHandler = (e) => {
+    const user = {
+      name: location.state.userName,
+      contact: location.state.userContact,
+    };
+
+    axios
+      .post("http://localhost:3001/updateQueue", {
+        clinicName,
+        user,
+      })
+      .then((response) => {})
+      .catch((err) => {
+        console.log(err);
+      });
+
+    getQueue();
 
     e.target.textContent = "Appointment Booked!";
     e.target.style.backgroundColor = "green";
+    setBookStatus(true);
   };
 
   return (
@@ -83,6 +90,7 @@ export default function UserAppoint() {
             <button
               className="btn btn-primary btn-lg mb-4"
               onClick={bookingHandler}
+              disabled={bookStatus ? true : false}
             >
               Book Your Appointment
             </button>

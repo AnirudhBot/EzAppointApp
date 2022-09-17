@@ -1,8 +1,11 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
 export default function Navbar(props) {
+  const location=useLocation();
+  const pathname=location.pathname;
+
   return (
     <nav
       className={`navbar navbar-expand-lg navbar-${props.mode} bg-${props.mode}`}
@@ -44,13 +47,21 @@ export default function Navbar(props) {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link
-                  className="nav-link active"
-                  aria-current="page"
-                  to="/login"
-                >
-                  {props.login}
-                </Link>
+                {pathname == "/userAppoint" ||
+                pathname == "/userhome" ||
+                pathname == "/dashboard" ? (
+                  <Link className="nav-link active" aria-current="page" to="/">
+                    Logout
+                  </Link>
+                ) : (
+                  <Link
+                    className="nav-link active"
+                    aria-current="page"
+                    to="/login"
+                  >
+                    {props.login}
+                  </Link>
+                )}
               </li>
               <li>
                 <button

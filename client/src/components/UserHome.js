@@ -18,7 +18,7 @@ export default function UserHome() {
       .catch((err) => {
         console.log(err);
       });
-  });
+  },[]);
 
   
   const userName = location.state.name;
