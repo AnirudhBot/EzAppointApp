@@ -88,7 +88,7 @@ export default function UserHome() {
       </div> */}
       {results.map((result, index) => {
         return (
-          <div className="container p-2">
+          <div className="container">
             <div className="result card text-center">
               <div className="text-center" key={index}>
                 <div className="display-4 card-header">
@@ -106,7 +106,7 @@ export default function UserHome() {
                     <img src="https://img.icons8.com/ios-filled/50/000000/arrow.png" />
                   </button>
                 </div>
-                <div className="card-footer">ENT Doctor</div>
+                <div className="card-footer">{result.fos}</div>
               </div>
             </div>
           </div>

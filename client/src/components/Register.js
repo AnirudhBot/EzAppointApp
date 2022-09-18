@@ -54,7 +54,8 @@ export default function Register() {
         email,
         contact,
         password,
-        address
+        address,
+        fos: fieldOfStudy,
     })
     .then(response => {
         alert("Registered Successfully!");
