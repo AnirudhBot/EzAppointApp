@@ -6,8 +6,8 @@ import axios from "axios";
 export default function UserAppoint() {
   const location = useLocation();
   const clinicName = location.state.clinicName;
-  const name= location.state.userName;
-  const contact= location.state.userContact;
+  const name = location.state.userName;
+  const contact = location.state.userContact;
   const [queueL, setQueueL] = useState("0");
   const [min, setMin] = useState("00");
   const [sec, setSec] = useState("00");
@@ -16,15 +16,17 @@ export default function UserAppoint() {
   let secCounter;
   let myInterval;
 
-  useEffect(()=> {
+  useEffect(() => {
     getQueue();
-  },[])
+  }, []);
 
   const getQueue = () => {
     console.log("queue accessed");
     axios
       .post("http://localhost:3001/getQueue", {
-        clinicName,name,contact
+        clinicName,
+        name,
+        contact,
       })
       .then((response) => {
         setQueueL(response.data);
@@ -33,7 +35,7 @@ export default function UserAppoint() {
           setSec(59);
           minCounter = response.data * 5 - 1;
           secCounter = 59;
-          myInterval=setInterval(startTimer, 1000);
+          myInterval = setInterval(startTimer, 1000);
         }
       })
       .catch((err) => {
@@ -57,7 +59,7 @@ export default function UserAppoint() {
   const bookingHandler = (e) => {
     const user = {
       name,
-      contact
+      contact,
     };
 
     axios

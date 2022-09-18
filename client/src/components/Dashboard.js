@@ -14,7 +14,9 @@ export default function Dashboard(props) {
       .post("http://localhost:3001/clinicQueue", { clinicName })
       .then((response) => {
         setQueue(response.data);
-        setCurrPatient(response.data[0].currUserName);
+        if(response.data.length>0) {
+          setCurrPatient(response.data[0].currUserName);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -24,13 +26,13 @@ export default function Dashboard(props) {
   const removeHandler = (e) => {
     const userName = e.target.parentNode.parentNode.parentNode.firstElementChild.innerText;
     const uid=e.target.parentNode.parentNode.parentNode.parentNode.getAttribute("uid");
-    console.log(uid);
-    console.log(clinicName);
     axios
       .post("http://localhost:3001/deleteAppointment", { clinicName, userName, uid })
       .then((response) => {
         setQueue(response.data);
-        setCurrPatient(response.data[0].currUserName);
+        if(response.data.length>0) {
+          setCurrPatient(response.data[0].currUserName);
+        }
       })
       .catch((err) => {
         console.log(err);
