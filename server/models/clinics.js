@@ -30,6 +30,10 @@ const clinicSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  fos: {
+    type: String,
+    required: true,
+  }
 });
 
 const clinicModel = mongoose.model("registered_clinics", clinicSchema);
