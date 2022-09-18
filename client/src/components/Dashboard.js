@@ -19,14 +19,16 @@ export default function Dashboard(props) {
       .catch((err) => {
         console.log(err);
       });
-  });
+  },[]);
 
   const removeHandler = (e) => {
     const userName = e.target.parentNode.parentNode.parentNode.firstElementChild.innerText;
+    const uid=e.target.parentNode.parentNode.parentNode.parentNode.getAttribute("uid");
+    console.log(uid);
+    console.log(clinicName);
     axios
-      .post("http://localhost:3001/deleteAppointment", { clinicName, userName })
+      .post("http://localhost:3001/deleteAppointment", { clinicName, userName, uid })
       .then((response) => {
-        console.log(response.data);
         setQueue(response.data);
         setCurrPatient(response.data[0].currUserName);
       })
@@ -89,7 +91,7 @@ export default function Dashboard(props) {
                 <tbody>
                   {queue.map((queueItem, index) => {
                     return (
-                      <tr>
+                      <tr uid={queueItem._id} key={queueItem._id}>
                         <th scope="row">{index + 1}</th>
                         <td className="oneN">
                           <span>{queueItem.currUserName}</span>

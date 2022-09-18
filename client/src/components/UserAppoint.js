@@ -6,18 +6,25 @@ import axios from "axios";
 export default function UserAppoint() {
   const location = useLocation();
   const clinicName = location.state.clinicName;
-  const [queueL, setQueueL] = useState();
-  const [min, setMin] = useState(null);
-  const [sec, setSec] = useState(null);
+  const name= location.state.userName;
+  const contact= location.state.userContact;
+  const [queueL, setQueueL] = useState("0");
+  const [min, setMin] = useState("00");
+  const [sec, setSec] = useState("00");
   const [bookStatus, setBookStatus] = useState(false);
   let minCounter;
   let secCounter;
+  let myInterval;
+
+  useEffect(()=> {
+    getQueue();
+  },[])
 
   const getQueue = () => {
     console.log("queue accessed");
     axios
       .post("http://localhost:3001/getQueue", {
-        clinicName,
+        clinicName,name,contact
       })
       .then((response) => {
         setQueueL(response.data);
@@ -26,11 +33,11 @@ export default function UserAppoint() {
           setSec(59);
           minCounter = response.data * 5 - 1;
           secCounter = 59;
-          setInterval(startTimer, 1000);
+          myInterval=setInterval(startTimer, 1000);
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.log("error");
       });
   };
 
@@ -49,8 +56,8 @@ export default function UserAppoint() {
 
   const bookingHandler = (e) => {
     const user = {
-      name: location.state.userName,
-      contact: location.state.userContact,
+      name,
+      contact
     };
 
     axios
@@ -63,7 +70,7 @@ export default function UserAppoint() {
         console.log(err);
       });
 
-    getQueue();
+    // getQueue();
 
     e.target.textContent = "Appointment Booked!";
     e.target.style.backgroundColor = "green";
@@ -96,7 +103,7 @@ export default function UserAppoint() {
             </button>
 
             <h3>
-              Estimated queue time left : &nbsp; {min} :: {sec}
+              Estimated queue time left : &nbsp; {min} : {sec}
             </h3>
 
             <div className="row Stat">
