@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Navbar from "./Navbar";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -12,7 +11,7 @@ export default function Login() {
 
   const handleUserLogin = () => {
     axios
-      .post("http://localhost:3001/loginUser", {
+      .post("https://ezappoint.herokuapp.com/loginUser", {
         email,
         password,
       })
@@ -36,7 +35,7 @@ export default function Login() {
 
   const handleClinicLogin = () => {
     axios
-      .post("http://localhost:3001/loginClinic", {
+      .post("https://ezappoint.herokuapp.com/loginClinic", {
         email,
         password,
       })
@@ -86,7 +85,7 @@ export default function Login() {
   return (
     <>
       <section className="login py-5">
-        <div className="container" style={{ padding: "38px" }}>
+        <div className="login-container" style={{ padding: "38px" }}>
           <div className="row g-0">
             <div className="col-lg-5">
               <div className="image"></div>

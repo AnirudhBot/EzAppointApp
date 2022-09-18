@@ -11,12 +11,13 @@ export default function Dashboard(props) {
 
   useEffect(() => {
     axios
-      .post("http://localhost:3001/clinicQueue", { clinicName })
+      .post("https://ezappoint.herokuapp.com/clinicQueue", { clinicName })
       .then((response) => {
         setQueue(response.data);
         if(response.data.length>0) {
           setCurrPatient(response.data[0].currUserName);
         }
+        else setCurrPatient("");
       })
       .catch((err) => {
         console.log(err);
@@ -27,7 +28,7 @@ export default function Dashboard(props) {
     const userName = e.target.parentNode.parentNode.parentNode.firstElementChild.innerText;
     const uid=e.target.parentNode.parentNode.parentNode.parentNode.getAttribute("uid");
     axios
-      .post("http://localhost:3001/deleteAppointment", { clinicName, userName, uid })
+      .post("https://ezappoint.herokuapp.com/deleteAppointment", { clinicName, userName, uid })
       .then((response) => {
         setQueue(response.data);
         if(response.data.length>0) {

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./UserHome.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Navbar from "./Navbar";
 
 export default function UserHome() {
   const [results, setResults] = useState([]);
@@ -11,7 +10,7 @@ export default function UserHome() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/fetchClinics")
+      .get("https://ezappoint.herokuapp.com/fetchClinics")
       .then((response) => {
         setResults(response.data);
       })

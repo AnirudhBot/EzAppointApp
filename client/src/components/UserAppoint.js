@@ -23,7 +23,7 @@ export default function UserAppoint() {
   const getQueue = () => {
     console.log("queue accessed");
     axios
-      .post("http://localhost:3001/getQueue", {
+      .post("https://ezappoint.herokuapp.com/getQueue", {
         clinicName,
         name,
         contact,
@@ -63,7 +63,7 @@ export default function UserAppoint() {
     };
 
     axios
-      .post("http://localhost:3001/updateQueue", {
+      .post("https://ezappoint.herokuapp.com/updateQueue", {
         clinicName,
         user,
       })
@@ -81,7 +81,7 @@ export default function UserAppoint() {
 
   return (
     <div className="Main">
-      <div className="container">
+      <div className="app-container">
         <h1 id="head" className="text-center">
           Welcome {location.state.userName}
         </h1>

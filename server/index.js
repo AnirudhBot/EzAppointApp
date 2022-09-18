@@ -1,23 +1,20 @@
-require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const clinicModel = require("./models/clinics");
 const userModel = require("./models/users");
 const userClinicModel = require("./models/userClinics");
-const tokenModel = require("./models/token");
-const dotenv = require("dotenv");
+// const dotenv = require("dotenv");
 const axios = require("axios");
 const app = express();
-const PORT = 3001 || process.env.PORT;
+const PORT = process.env.PORT || 3001;
+// dotenv.config();
 
 const cors = require("cors");
 app.use(cors());
 app.use(express.json());
 
 mongoose
-  .connect(
-    "mongodb+srv://cluster-1:cluster-1-practice@cluster-1.lbmpr.mongodb.net/Clinics?retryWrites=true&w=majority"
-  )
+  .connect("mongodb+srv://cluster-1:cluster-1-practice@cluster-1.lbmpr.mongodb.net/Clinics?retryWrites=true&w=majority")
   .then(() => {
     console.log("successful connection");
   })
@@ -25,11 +22,15 @@ mongoose
     console.log("failed connecting to atlas");
   });
 
+app.get("/", (req, res) => {
+  res.send("Welcome to EzAppoint");
+});
+
 // post request for getting queue
 app.post("/getQueue", (req, res) => {
-  const currClinicName =req.body.clinicName;
-  const uname=req.body.name;
-  const ucontact=req.body.contact;
+  const currClinicName = req.body.clinicName;
+  const uname = req.body.name;
+  const ucontact = req.body.contact;
   let queueLength;
   userClinicModel.findOne(
     { nameOfClinic: currClinicName },
@@ -37,15 +38,18 @@ app.post("/getQueue", (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        let ans=0;
-        if(foundClinic != null) {
+        let ans = 0;
+        if (foundClinic != null) {
           queueLength = foundClinic.queue.length;
-          for(let i=0; i<queueLength; i++) {
-            if(foundClinic.queue[i].currUserName===uname && foundClinic.queue[i].currUserContact===ucontact) {
-              ans=i;
+          for (let i = 0; i < queueLength; i++) {
+            if (
+              foundClinic.queue[i].currUserName === uname &&
+              foundClinic.queue[i].currUserContact === ucontact
+            ) {
+              ans = i;
               break;
             }
-            ans=queueLength;
+            ans = queueLength;
           }
         }
         res.send(`${ans}`);
@@ -65,7 +69,11 @@ app.post("/updateQueue", (req, res) => {
         const newUser = new userClinicModel({
           nameOfClinic: currClinicName,
           queue: [
-            { currUserName: currUser.name, currUserContact: currUser.contact, _id: currUser.contact, },
+            {
+              currUserName: currUser.name,
+              currUserContact: currUser.contact,
+              _id: currUser.contact,
+            },
           ],
         });
         newUser.save(function (err, result) {
@@ -79,13 +87,15 @@ app.post("/updateQueue", (req, res) => {
         userClinicModel.updateOne(
           { nameOfClinic: currClinicName },
           {
-            $addToSet : {
-              queue : [{ 
-                currUserName: currUser.name,
-                currUserContact: currUser.contact,
-                _id: currUser.contact 
-              }]
-            }
+            $addToSet: {
+              queue: [
+                {
+                  currUserName: currUser.name,
+                  currUserContact: currUser.contact,
+                  _id: currUser.contact,
+                },
+              ],
+            },
           },
           function (err) {
             console.log(err);
@@ -100,7 +110,6 @@ app.post("/updateQueue", (req, res) => {
 app.post("/registerClinic", async (req, res) => {
   const clinic = req.body;
   const newClinic = new clinicModel(clinic);
-  console.log(newClinic);
   await newClinic.save(function (err, result) {
     if (err) {
       console.log(err);
@@ -220,11 +229,12 @@ app.post("/clinicQueue", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      res.send(result[0].queue);
+      if(result[0]!=undefined) res.send(result[0].queue);
+      else res.send(null);
+      
     }
   });
 });
-
 
 // Listening to Server
 app.listen(PORT, () => {

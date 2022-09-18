@@ -20,7 +20,7 @@ export default function About(props) {
                 </ul>
             </div>
             <h2>Gitesh Pareek</h2>
-            <h4>Project Manager / Front-End Dev</h4>
+            <h4>MERN Developer</h4>
           </div>
           <div className="col-md-3 profile text-center">
             <div className="img-box">
@@ -31,7 +31,7 @@ export default function About(props) {
                 </ul>
             </div>
             <h2>Anirudh Sharma</h2>
-            <h4>MERN Stack Developer</h4>
+            <h4>MERN Developer</h4>
           </div>
           <div className="col-md-3 profile text-center">
             <div className="img-box">
@@ -43,17 +43,6 @@ export default function About(props) {
             </div>
             <h2>Harshita Pal</h2>
             <h4>UI/UX Designer / ReactJs Developer</h4>
-          </div>
-          <div className="col-md-3 profile text-center">
-            <div className="img-box">
-              <img src={require('../images/AyushD.jpg')} className="img-fluid rounded"/>
-                <ul>
-                  <a href="https://twitter.com/ayushsharma1712?t=Mg074iaPX101Rw2Ap-LYTA&s=09"  target='_blank'><li><i className="fa fa-twitter"></i></li></a>
-                  <a href="https://www.linkedin.com/in/ayush-sharma-a703391b6"  target='_blank'><li><i className="fa fa-linkedin"></i></li></a>
-                </ul>
-            </div>
-            <h2>Ayush Sharma</h2>
-            <h4>Back-End Developer</h4>
           </div>
         </div>
       </div>

@@ -46,8 +46,7 @@ export default function Register() {
 
   const submitHandler = (e) => {
     e.preventDefault();
-
-    axios.post("http://localhost:3001/registerClinic", {
+    axios.post("https://ezappoint.herokuapp.com/registerClinic", {
         nameOfClinic: clinicName,
         doctorName,
         gender,
