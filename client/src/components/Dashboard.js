@@ -19,7 +19,7 @@ export default function Dashboard(props) {
       .catch((err) => {
         console.log(err);
       });
-  },[]);
+  },[queue]);
 
   const removeHandler = (e) => {
     const userName = e.target.parentNode.parentNode.parentNode.firstElementChild.innerText;
