@@ -6,6 +6,7 @@ import axios from "axios";
 export default function UserAppoint() {
   const location = useLocation();
   const clinicName = location.state.clinicName;
+  const clinicAddress = location.state.clinicAddress;
   const [queueL, setQueueL] = useState();
   const [min, setMin] = useState(null);
   const [sec, setSec] = useState(null);
@@ -18,6 +19,7 @@ export default function UserAppoint() {
     axios
       .post("http://localhost:3001/getQueue", {
         clinicName,
+        clinicAddress,
       })
       .then((response) => {
         setQueueL(response.data);

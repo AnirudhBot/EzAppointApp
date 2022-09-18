@@ -18,9 +18,8 @@ export default function UserHome() {
       .catch((err) => {
         console.log(err);
       });
-  },[]);
+  }, []);
 
-  
   const userName = location.state.name;
   const userContact = location.state.contact;
 
@@ -32,7 +31,7 @@ export default function UserHome() {
         clinicName: name,
         clinicAddress: address,
         userName,
-        userContact
+        userContact,
       },
     });
   };
@@ -64,7 +63,7 @@ export default function UserHome() {
           <span className="item">General surgeon</span>
         </div> */}
 
-      <div className="container wrapper-div">
+      {/* <div className="container wrapper-div">
         <div className="clinic-results row justify-content-around">
           {results.map((result, index) => {
             return (
@@ -86,7 +85,33 @@ export default function UserHome() {
             );
           })}
         </div>
-      </div>
+      </div> */}
+      {results.map((result, index) => {
+        return (
+          <div className="container p-2">
+            <div className="result card text-center">
+              <div className="text-center" key={index}>
+                <div className="display-4 card-header">
+                  {result.nameOfClinic}
+                </div>
+                <div className="card-body">
+                  <h5 className="card-title">{result.address}</h5>
+                  <p className="card-text">Best Clinics in the Town</p>
+                  <button
+                    name={`${result.nameOfClinic}`}
+                    address={`${result.address}`}
+                    onClick={handleChange}
+                    className="btn btn-outline-primary btn-sm"
+                  >
+                    <img src="https://img.icons8.com/ios-filled/50/000000/arrow.png" />
+                  </button>
+                </div>
+                <div className="card-footer">ENT Doctor</div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </>
   );
 }
