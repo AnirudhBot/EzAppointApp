@@ -41,12 +41,13 @@ app.post("/getQueue", (req, res) => {
         if(foundClinic != null) {
           queueLength = foundClinic.queue.length;
           for(let i=0; i<queueLength; i++) {
-            if(foundClinic.queue[i].currUserName==uname && foundClinic.queue[i].currUserContact==ucontact) {
+            if(foundClinic.queue[i].currUserName===uname && foundClinic.queue[i].currUserContact===ucontact) {
               ans=i;
               break;
             }
+            ans=queueLength;
           }
-        } 
+        }
         res.send(`${ans}`);
       }
     }
