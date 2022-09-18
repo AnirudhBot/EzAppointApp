@@ -55,7 +55,6 @@ app.post("/getQueue", (req, res) => {
 });
 
 // post request for updating queue
-
 app.post("/updateQueue", (req, res) => {
   const currClinicName = req.body.clinicName;
   const currUser = req.body.user;
@@ -80,15 +79,6 @@ app.post("/updateQueue", (req, res) => {
         userClinicModel.updateOne(
           { nameOfClinic: currClinicName },
           {
-            // $set: {
-            //   queue: [
-            //     ...foundClinic.queue,
-            //     {
-            //       currUserName: currUser.name,
-            //       currUserContact: currUser.contact,
-            //     },
-            //   ],
-            // },
             $addToSet : {
               queue : [{ 
                 currUserName: currUser.name,
@@ -106,44 +96,7 @@ app.post("/updateQueue", (req, res) => {
   );
 });
 
-// post request for getting tokens
-
-// app.post("/sendToken", (req, res) => {
-//   const currClinicName = req.body.clinicName;
-//   tokenModel.findOne(
-//     {clinicName : currClinicName}, function(err, foundToken){
-//       if(err){
-//         console.log(err);
-//       } else {
-//         res.send(foundToken.tokenNumber);
-//       }
-//     }
-//   )
-// });
-
-// post request for updating token
-
-// app.post("/updateToken", (req, res) => {
-//   const currClinicName = req.body.clinicName;
-//   tokenModel.findOne(
-//     {clinicName: currClinicName}, function(err, foundToken){
-//       if(err){
-//         console.log(err);
-//       } else {
-//         tokenModel.updateOne(
-//           {clinicName: currClinicName},
-//           {$inc: {tokenNumber: 1}},
-//           function(err){
-//             console.log(err);
-//           }
-//         )
-//       }
-//     }
-//   )
-// })
-
 // Register as a Clinic
-
 app.post("/registerClinic", async (req, res) => {
   const clinic = req.body;
   const newClinic = new clinicModel(clinic);
@@ -159,7 +112,6 @@ app.post("/registerClinic", async (req, res) => {
 });
 
 // Login as a Clinic
-
 app.post("/loginClinic", (req, res) => {
   const clinicEmail = req.body.email;
   const clinicPassword = req.body.password;
@@ -185,7 +137,6 @@ app.post("/loginClinic", (req, res) => {
 });
 
 // Register as a User
-
 app.post("/registerUser", async (req, res) => {
   const user = req.body;
   const newUser = new userModel(user);
@@ -225,53 +176,6 @@ app.post("/loginUser", (req, res) => {
   });
 });
 
-// Increasing the queue - adding the user to the queue
-// Also checking if the clinic already exists in the database or not - if not then creating a new queue of clinic
-
-// app.post("/bookAppointment", (req, res) => {
-//   const currUser = req.body.user;
-//   const currClinic = req.body.clinic;
-//   userClinicModel.findOne(
-//     { clinicName: currClinic.name },
-//     function (err, foundUserClinic) {
-//       if (err) {
-//         console.log(err);
-//       } else {
-//         if (foundUserClinic) {
-
-//             console.log(foundUserClinic.listOfUsers);
-//             userClinicModel.updateOne(
-//               {clinicName: foundUserClinic.clinicName},
-//               {$set: { listOfUsers: [...foundUserClinic.listOfUsers, {
-//                 currUserName: currUser.name,
-//                 currUserContact: currUser.contact
-//               }]}}, function(err){
-//                 console.log(err)
-//               });
-
-//         } else {
-//           const userClinic = new userClinicModel({
-//             clinicName: currClinic.name,
-//             listOfUsers: [
-//               {
-//                 currUserName: currUser.name,
-//                 currUserContact: currUser.contact,
-//               },
-//             ],
-//           });
-//           userClinic.save(function (err, result) {
-//             if (err) {
-//               console.log(err);
-//             } else {
-//               console.log(result);
-//             }
-//           });
-//         }
-//       }
-//     }
-//   );
-// });
-
 //Decreasing the queue - deleting the user whose appointment is over
 app.post("/deleteAppointment", (req, res) => {
   const clinicName = req.body.clinicName;
@@ -279,17 +183,6 @@ app.post("/deleteAppointment", (req, res) => {
   const name = req.body.userName;
   console.log("deleting appointment");
   console.log(clinicName + " " + uid + " " + name);
-  // userClinicModel.updateOne(
-  //   {
-  //     nameOfClinic: clinicName,
-  //   },
-  //   { $pull: { queue: { currUserName: name, _id: uid } } }
-  // );
-  // userClinicModel.deleteOne({ queue : { currUserName : name} }).then(function(){
-  //   console.log("Data deleted"); // Success
-  // }).catch(function(error){
-  //   console.log(error); // Failure
-  // });
 
   userClinicModel.findOne({ nameOfClinic: clinicName }, function () {
     userClinicModel.updateOne(
@@ -310,7 +203,6 @@ app.post("/deleteAppointment", (req, res) => {
 });
 
 // fetching the clincs
-
 app.get("/fetchClinics", (req, res) => {
   clinicModel.find({}, function (err, results) {
     if (err) {
@@ -333,22 +225,8 @@ app.post("/clinicQueue", (req, res) => {
   });
 });
 
-// app.post("/fetchQueue", (req, res) => {
-//   const currClinic = req.body.clinic;
-//   userClinicModel.findOne(
-//     {clinicName: currClinic.name},
-//     function(err, foundUserClinic){
-//       if(err){
-//         console.log(err)
-//       } else {
-//         res.send(foundUserClinic.listOfUsers);
-//       }
-//     }
-//   )
-// });
 
 // Listening to Server
-
 app.listen(PORT, () => {
   console.log("server running");
 });
