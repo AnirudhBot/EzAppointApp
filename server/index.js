@@ -26,9 +26,10 @@ mongoose
   });
 
 // post request for getting queue
-
 app.post("/getQueue", (req, res) => {
-  const currClinicName = req.body.clinicName;
+  const currClinicName =req.body.clinicName;
+  const uname=req.body.name;
+  const ucontact=req.body.contact;
   let queueLength;
   userClinicModel.findOne(
     { nameOfClinic: currClinicName },
@@ -36,12 +37,17 @@ app.post("/getQueue", (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        if (foundClinic == null) {
-          queueLength = 0;
-        } else {
+        let ans=0;
+        if(foundClinic != null) {
           queueLength = foundClinic.queue.length;
-        }
-        res.send(`${queueLength}`);
+          for(let i=0; i<queueLength; i++) {
+            if(foundClinic.queue[i].currUserName==uname && foundClinic.queue[i].currUserContact==ucontact) {
+              ans=i;
+              break;
+            }
+          }
+        } 
+        res.send(`${ans}`);
       }
     }
   );
@@ -59,7 +65,7 @@ app.post("/updateQueue", (req, res) => {
         const newUser = new userClinicModel({
           nameOfClinic: currClinicName,
           queue: [
-            { currUserName: currUser.name, currUserContact: currUser.contact },
+            { currUserName: currUser.name, currUserContact: currUser.contact, _id: currUser.contact, },
           ],
         });
         newUser.save(function (err, result) {
@@ -73,15 +79,22 @@ app.post("/updateQueue", (req, res) => {
         userClinicModel.updateOne(
           { nameOfClinic: currClinicName },
           {
-            $set: {
-              queue: [
-                ...foundClinic.queue,
-                {
-                  currUserName: currUser.name,
-                  currUserContact: currUser.contact,
-                },
-              ],
-            },
+            // $set: {
+            //   queue: [
+            //     ...foundClinic.queue,
+            //     {
+            //       currUserName: currUser.name,
+            //       currUserContact: currUser.contact,
+            //     },
+            //   ],
+            // },
+            $addToSet : {
+              queue : [{ 
+                currUserName: currUser.name,
+                currUserContact: currUser.contact,
+                _id: currUser.contact 
+              }]
+            }
           },
           function (err) {
             console.log(err);
@@ -259,16 +272,39 @@ app.post("/loginUser", (req, res) => {
 // });
 
 //Decreasing the queue - deleting the user whose appointment is over
-
 app.post("/deleteAppointment", (req, res) => {
   const clinicName = req.body.clinicName;
-  const userName = req.body.userName;
-  userClinicModel.updateOne({
-    nameOfClinic: clinicName
-  }, {
-    $pull: {
-      currUserName: userName 
-    },
+  const uid = req.body.uid.toString();
+  const name = req.body.userName;
+  console.log("deleting appointment");
+  console.log(clinicName + " " + uid + " " + name);
+  // userClinicModel.updateOne(
+  //   {
+  //     nameOfClinic: clinicName,
+  //   },
+  //   { $pull: { queue: { currUserName: name, _id: uid } } }
+  // );
+  // userClinicModel.deleteOne({ queue : { currUserName : name} }).then(function(){
+  //   console.log("Data deleted"); // Success
+  // }).catch(function(error){
+  //   console.log(error); // Failure
+  // });
+
+  userClinicModel.findOne({ nameOfClinic: clinicName }, function () {
+    userClinicModel.updateOne(
+      { nameOfClinic: clinicName },
+      {
+        $pull: {
+          queue: {
+            currUserName: name,
+            _id: uid,
+          },
+        },
+      },
+      function (err) {
+        console.log(err);
+      }
+    );
   });
 });
 
@@ -285,7 +321,6 @@ app.get("/fetchClinics", (req, res) => {
 });
 
 // fetch clinic queue
-
 app.post("/clinicQueue", (req, res) => {
   const clinicName = req.body.clinicName;
   userClinicModel.find({ nameOfClinic: clinicName }, function (err, result) {
@@ -296,7 +331,6 @@ app.post("/clinicQueue", (req, res) => {
     }
   });
 });
-
 
 // app.post("/fetchQueue", (req, res) => {
 //   const currClinic = req.body.clinic;

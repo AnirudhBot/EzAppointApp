@@ -12,6 +12,9 @@ const userClinicSchema = new mongoose.Schema({
       currUserContact: {
         type: String,
       },
+      _id: {
+        type: String,
+      }
     },
   ],
 });
