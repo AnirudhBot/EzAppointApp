@@ -17,3 +17,8 @@ appointment directly through the app<br>
 one on one interaction with the doctor directly from their homes<br>
 -Location based clinic results using user location(GPS)<br>
 -User Authentication using JWT
+<br>
+## Code Contributors:
+1. Anirudh Sharma  ( https://github.com/AnirudhBot | https://www.linkedin.com/in/anirudh-sharma-24516b215/ )
+2. Gitesh Pareek  ( https://github.com/GenMech | https://www.linkedin.com/in/gitesh-pareek-146a78213/ )
+3. Harshita Pal  ( https://github.com/bumblebee28 | https://www.linkedin.com/in/harshita-pal-1848751bb/ )
