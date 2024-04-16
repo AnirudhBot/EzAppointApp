@@ -1,3 +1,10 @@
+![EzAppoint](https://socialify.git.ci/GenMech/EzAppoint/image?description=1&language=1&name=1&owner=1&pattern=Plus&theme=Light)
+
+<p align="center">
+<img src="https://img.shields.io/github/license/GenMech/EzAppoint" />
+<img src="https://img.shields.io/badge/Author-GenMech-yellow" />
+</p>
+
 # EzAppoint
 
 EzAppoint is a user friendly web application that facilitates easy medical appointment process between clinics and the patients.
