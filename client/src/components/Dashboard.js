@@ -4,41 +4,59 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 export default function Dashboard(props) {
-  const [currPatient, setCurrPatient] = useState('');
+  const [currPatient, setCurrPatient] = useState("");
   const location = useLocation();
   const clinicName = location.state.clinic;
   const [queue, setQueue] = useState([]);
 
   useEffect(() => {
-    axios
-      .post("https://ezappoint.herokuapp.com/clinicQueue", { clinicName })
-      .then((response) => {
-        setQueue(response.data);
-        if(response.data.length>0) {
-          setCurrPatient(response.data[0].currUserName);
-        }
-        else setCurrPatient("");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  },[queue]);
+    const getClinicQueue = () => {
+      axios
+        .post(`${process.env.REACT_APP_BACKEND_URL}/clinicQueue`, {
+          clinicName,
+        })
+        .then((response) => {
+          setQueue(response.data);
+          if (response.data.length > 0) {
+            setCurrPatient(response.data[0].currUserName);
+          } else setCurrPatient("");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getClinicQueue();
+  }, []);
+
+  useEffect(() => {
+    if (queue.length > 0) {
+      setCurrPatient(queue[0].currUserName);
+    } else {
+      setCurrPatient("");
+    }
+  }, [queue]);
 
   const removeHandler = (e) => {
-    const userName = e.target.parentNode.parentNode.parentNode.firstElementChild.innerText;
-    const uid=e.target.parentNode.parentNode.parentNode.parentNode.getAttribute("uid");
+    const userName =
+      e.target.parentNode.parentNode.parentNode.firstElementChild.innerText;
+    const uid =
+      e.target.parentNode.parentNode.parentNode.parentNode.getAttribute("uid");
     axios
-      .post("https://ezappoint.herokuapp.com/deleteAppointment", { clinicName, userName, uid })
+      .post(`${process.env.REACT_APP_BACKEND_URL}/deleteAppointment`, {
+        clinicName,
+        userName,
+        uid,
+      })
       .then((response) => {
         setQueue(response.data);
-        if(response.data.length>0) {
+        if (response.data.length > 0) {
           setCurrPatient(response.data[0].currUserName);
         }
       })
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   let c = () => {
     if (props.mode === "dark") return "white";
@@ -92,14 +110,17 @@ export default function Dashboard(props) {
                   </tr>
                 </thead>
                 <tbody>
-                  {queue.map((queueItem, index) => {
+                  {queue?.map((queueItem, index) => {
                     return (
                       <tr uid={queueItem._id} key={queueItem._id}>
                         <th scope="row">{index + 1}</th>
                         <td className="oneN">
                           <span>{queueItem.currUserName}</span>
                           <span>
-                            <button className="btn shadow-none" onClick={removeHandler}>
+                            <button
+                              className="btn shadow-none"
+                              onClick={removeHandler}
+                            >
                               <img
                                 src="https://img.icons8.com/color/30/000000/remove-user-male--v1.png"
                                 width="80%"
