@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./register.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function User_reg() {
   const [firstName, setFirstName] = useState("");
@@ -9,6 +10,8 @@ export default function User_reg() {
   const [email, setEmail] = useState("");
   const [contact, setContact] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const firstNameHandler = (e) => {
     setFirstName(e.target.value);
@@ -38,7 +41,7 @@ export default function User_reg() {
     e.preventDefault();
 
     axios
-      .post("http://localhost:3001/registerUser", {
+      .post(`${process.env.REACT_APP_BACKEND_URL}/registerUser`, {
         firstName,
         lastName,
         gender,
@@ -48,6 +51,7 @@ export default function User_reg() {
       })
       .then((response) => {
         alert("Registered Successfully!");
+        navigate("/login");
       })
       .catch((err) => {
         console.log(err);

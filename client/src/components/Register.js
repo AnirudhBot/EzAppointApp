@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./register.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [clinicName, setClinicName] = useState("");
@@ -11,6 +12,8 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
   const [fieldOfStudy, setFieldOfStudy] = useState("");
+
+  const navigate = useNavigate();
 
   const fieldOfStudyHandler = (e) => {
     setFieldOfStudy(e.target.value);
@@ -46,7 +49,8 @@ export default function Register() {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    axios.post("https://ezappoint.herokuapp.com/registerClinic", {
+    axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/registerClinic`, {
         nameOfClinic: clinicName,
         doctorName,
         gender,
@@ -55,13 +59,14 @@ export default function Register() {
         password,
         address,
         fos: fieldOfStudy,
-    })
-    .then(response => {
+      })
+      .then((response) => {
         alert("Registered Successfully!");
-    })
-    .catch(err => {
+        navigate("/login");
+      })
+      .catch((err) => {
         console.log(err);
-    })
+      });
 
     setClinicName("");
     setDoctorName("");
