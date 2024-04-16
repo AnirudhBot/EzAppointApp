@@ -3,8 +3,8 @@ import { Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
 export default function Navbar(props) {
-  const location=useLocation();
-  const pathname=location.pathname;
+  const location = useLocation();
+  const pathname = location.pathname;
 
   return (
     <nav

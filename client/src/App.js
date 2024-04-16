@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
@@ -15,15 +15,13 @@ import UserAppoint from "./components/UserAppoint";
 
 function App() {
   const [mode, setmode] = useState("dark");
-  if(mode === 'dark') {
+  if (mode === "dark") {
     document.body.style.backgroundColor = "#253047";
     document.body.style.color = "white";
-    
-  }  
-   else{
+  } else {
     document.body.style.backgroundColor = "white";
     document.body.style.fontColor = "black";
-   }
+  }
   const toggleMode = () => {
     if (mode === "dark") {
       setmode("light");
@@ -43,7 +41,7 @@ function App() {
         link="Register"
         mode={mode}
         togglemode={toggleMode}
-        login='Login'
+        login="Login"
         m={
           mode === "light" ? (
             <img src="https://img.icons8.com/material-outlined/24/000000/do-not-disturb-2.png" />
@@ -64,7 +62,7 @@ function App() {
           exact
           path="/userAppoint"
           element={<UserAppoint mode={mode} />}
-        ></Route>
+        />
         <Route exact path="/result" element={<Result mode={mode} />}></Route>
         <Route
           exact

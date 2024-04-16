@@ -10,7 +10,7 @@ export default function UserHome() {
 
   useEffect(() => {
     axios
-      .get("https://ezappoint.herokuapp.com/fetchClinics")
+      .get(`${process.env.REACT_APP_BACKEND_URL}/fetchClinics`)
       .then((response) => {
         setResults(response.data);
       })

@@ -11,7 +11,7 @@ export default function Login() {
 
   const handleUserLogin = () => {
     axios
-      .post("https://ezappoint.herokuapp.com/loginUser", {
+      .post(`${process.env.REACT_APP_BACKEND_URL}/loginUser`, {
         email,
         password,
       })
@@ -35,7 +35,7 @@ export default function Login() {
 
   const handleClinicLogin = () => {
     axios
-      .post("https://ezappoint.herokuapp.com/loginClinic", {
+      .post(`${process.env.REACT_APP_BACKEND_URL}/loginClinic`, {
         email,
         password,
       })
