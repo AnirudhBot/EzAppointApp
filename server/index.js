@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 mongoose
-  .connect("mongodb+srv://cluster-1:cluster-1-practice@cluster-1.lbmpr.mongodb.net/Clinics?retryWrites=true&w=majority")
+  .connect(process.env.MONGODB_URL)
   .then(() => {
     console.log("successful connection");
   })
@@ -188,27 +188,54 @@ app.post("/loginUser", (req, res) => {
 //Decreasing the queue - deleting the user whose appointment is over
 app.post("/deleteAppointment", (req, res) => {
   const clinicName = req.body.clinicName;
-  const uid = req.body.uid.toString();
+  const uid = req.body.uid;
   const name = req.body.userName;
-  console.log("deleting appointment");
-  console.log(clinicName + " " + uid + " " + name);
 
-  userClinicModel.findOne({ nameOfClinic: clinicName }, function () {
-    userClinicModel.updateOne(
-      { nameOfClinic: clinicName },
-      {
-        $pull: {
-          queue: {
-            currUserName: name,
-            _id: uid,
+  console.log("deleting appointments");
+  console.log(clinicName + " " + uid + " " + name);
+  console.log("uid", uid);
+
+  userClinicModel.findOne(
+    { nameOfClinic: clinicName },
+    function (err, foundClinic) {
+      if (err) {
+        console.log("Error finding clinic:", err);
+        return res.status(500);
+      }
+
+      if (!foundClinic) {
+        console.log("Clinic not found");
+        return res.status(404);
+      }
+
+      userClinicModel.updateOne(
+        { nameOfClinic: clinicName },
+        {
+          $pull: {
+            queue: {
+              currUserName: name,
+              _id: uid,
+            },
           },
         },
-      },
-      function (err) {
-        console.log(err);
-      }
-    );
-  });
+        function (err) {
+          if (err) {
+            console.log("Error updating queue:", err);
+          }
+
+          userClinicModel.findOne(
+            { nameOfClinic: clinicName },
+            function (err, updatedClinic) {
+              if (err) {
+                console.log("Error finding updated clinic:", err);
+              }
+              res.send(updatedClinic.queue);
+            }
+          );
+        }
+      );
+    }
+  );
 });
 
 // fetching the clincs
@@ -229,9 +256,8 @@ app.post("/clinicQueue", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      if(result[0]!=undefined) res.send(result[0].queue);
+      if (result[0] != undefined) res.send(result[0].queue);
       else res.send(null);
-      
     }
   });
 });
