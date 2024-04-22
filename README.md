@@ -1,8 +1,6 @@
-![EzAppoint](https://socialify.git.ci/GenMech/EzAppoint/image?description=1&language=1&name=1&owner=1&pattern=Plus&theme=Light)
 
 <p align="center">
-<img src="https://img.shields.io/github/license/GenMech/EzAppoint" />
-<img src="https://img.shields.io/badge/Author-GenMech-yellow" />
+  <img src="https://socialify.git.ci/AnirudhBot/EzAppointApp/image?font=Inter&language=1&name=1&owner=1&pattern=Circuit%20Board&theme=Light" alt="EzAppointApp" width="640" height="320" />
 </p>
 
 # EzAppoint
